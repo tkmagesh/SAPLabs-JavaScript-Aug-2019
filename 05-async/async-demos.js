@@ -32,4 +32,26 @@
 
 	window['addAsyncClient'] = addAsyncClient;
 
+	window['addAsyncEvents'] = (function(){
+		
+		var _callbacks = [];
+
+		function process(x,y){
+			console.log('	[@Service] processing ', x , ' and ', y);
+			setTimeout(function(){
+				var result = x + y;
+				console.log('	[@Service] returning result');
+				_callbacks.forEach(function(callback){ callback(result)});
+			}, 4000);
+		}
+		function subscribe(callback){
+			_callbacks.push(callback);
+		}
+
+		return {
+			process : process,
+			subscribe : subscribe
+		};
+	})();
+
 })();
