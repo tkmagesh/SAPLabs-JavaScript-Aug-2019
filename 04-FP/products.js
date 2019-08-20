@@ -13,6 +13,12 @@ function describe(title, fn){
 	console.groupEnd();
 }
 
+function printGroup(groupedObj){
+	for(var key in groupedObj)
+		describe('Key - [' + key + ']', function(){
+			console.table(groupedObj[key]);
+		});
+}
 
 describe('default list', function(){
 	console.table(products);
@@ -165,3 +171,50 @@ describe('Filter', function(){
 
 	});
 });
+
+describe('GroupBy', function(){
+	describe('Group products by category', function(){
+		function groupProductsByCategory(){
+			var result = {};
+			for(var index = 0, count = products.length; index < count; index++){
+				var key = products[index].category;
+				if (typeof result[key] === 'undefined')
+					result[key] = [];
+				result[key].push(products[index]);
+			}
+			return result;
+		}
+
+		var productsByCategory = groupProductsByCategory();
+		printGroup(productsByCategory);
+	});
+
+	describe('Any list by any key', function(){
+		function groupBy(list, keySelectorFn){
+			var result = {};
+			for(var index = 0, count = list.length; index < count; index++){
+				var key = keySelectorFn(list[index]);
+				if (typeof result[key] === 'undefined')
+					result[key] = [];
+				result[key].push(list[index]);
+			}
+			return result;
+		}
+
+		describe('products by category', function(){
+			var categoryKeySelector = function(product){
+				return product.category;
+			};
+			var productsByCategory = groupBy(products, categoryKeySelector);
+			printGroup(productsByCategory);
+		});
+
+		describe('products by cost', function(){
+			var costKeySelector = function(product){
+				return product.cost > 50 ? 'costly' : 'affordable';
+			};
+			var productsByCost = groupBy(products, costKeySelector);
+			printGroup(productsByCost);
+		})
+	})
+})
