@@ -8,7 +8,7 @@ let readCount = 0;
 
 stream.on('data', function(chunk){
 	++readCount;
-	console.log(chunk);
+	//console.log(chunk);
 });
 
 stream.on('end', function(){
@@ -19,3 +19,5 @@ stream.on('end', function(){
 stream.on('error', function(){
 	console.log('something went wrong!');
 });
+
+stream.pipe(process.stdout);
