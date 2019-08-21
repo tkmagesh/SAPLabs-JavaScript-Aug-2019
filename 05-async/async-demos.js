@@ -75,11 +75,13 @@
 		console.log('[@Client] result = ', result);
 		
 
-		/*console.log('[@Client] triggering the service');
+		/*
+		console.log('[@Client] triggering the service');
 		var p = addAsyncPromise(x,y);
 		p.then(function(result){
 			console.log('[@Client] result = ', result);	
-		});*/
+		});
+		*/
 		
 	}
 
